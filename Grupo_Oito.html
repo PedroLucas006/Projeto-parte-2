@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Grupo Oito — Era da IA</title><style>
+:root{--paper:#f7f7ee;--green:#929e60;--orange:#ff7043;--apricot:#ffb15c;--yellow:#ffdb58;--ink:#59633b;--line:#929e6050;--rail-space:76px;--sidebar:220px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scrollbar-gutter:stable both-edges}body{margin:0;background:var(--paper);color:var(--green);font-family:'Century Gothic','Trebuchet MS',Arial,sans-serif}
+button,a,select{-webkit-tap-highlight-color:transparent}a{color:inherit}button,select{font:inherit}
+nav{position:fixed;z-index:10;top:0;left:0;right:0;min-height:96px;display:flex;justify-content:center;align-items:center;gap:34px;padding:16px var(--rail-space);background:var(--paper);border-bottom:1px solid var(--line)}
+nav a{text-decoration:none;font-size:15px;padding:14px 0;position:relative;white-space:nowrap;color:var(--ink);text-align:center}
+nav a[aria-current=page]::after{content:'';height:4px;background:var(--orange);position:absolute;left:0;right:0;bottom:2px;border-radius:4px}nav a:hover{color:var(--orange)}
+body.side nav{right:auto;bottom:0;width:var(--sidebar);flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;gap:20px;border-right:1px solid var(--line);border-bottom:0}
+body.side nav a{width:100%}main{margin:0 var(--rail-space)}.page{padding:150px 0 80px;min-height:115vh}.page[hidden]{display:none}body.side main{margin-left:calc(var(--sidebar) + 5vw)}body.side .page{padding-top:100px}
+.home{text-align:center}.home h1{font-family:Arial,Helvetica,sans-serif;font-size:clamp(64px,13.7vw,230px);font-weight:900;letter-spacing:-.085em;line-height:.9;margin:46px 0 54px;white-space:nowrap}
+.members{display:flex;flex-direction:column;gap:9px;font-size:17px;line-height:1.35}.summary{margin:86px auto 0;max-width:800px}
+h2{font-weight:500;letter-spacing:-.045em;font-size:clamp(38px,5vw,76px);line-height:1.08;margin:0 0 38px}.summary h2{font-size:25px;letter-spacing:-.02em}.blank{min-height:260px}.future-body{min-height:800px}
+.color-strip{height:10px;display:flex;margin:40px auto 0;max-width:500px}.color-strip i{flex:1;background:var(--orange)}.color-strip i:nth-child(2){background:var(--apricot)}.color-strip i:nth-child(3){background:var(--yellow)}.color-strip i:nth-child(4){background:var(--green)}
+.scroll-rail{position:fixed;right:18px;top:125px;bottom:35px;width:40px;display:flex;flex-direction:column;align-items:center;gap:20px;z-index:20}
+.scroll-rail button{width:44px;height:44px;background:none;border:0;cursor:pointer;padding:7px;flex-shrink:0}.scroll-rail button svg{width:100%;stroke:#686b5d;fill:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}.organic{height:100%;min-height:50px;width:30px}.organic path{fill:none;stroke:url(#palette);stroke-width:4}
+.columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);position:relative;column-gap:64px;align-items:start}
+.columns::before{content:'';position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--line)}.columns article{min-width:0}
+.column-heading{min-height:92px;display:flex;align-items:flex-start}.sources h2{font-size:clamp(32px,3.25vw,48px);margin:0;letter-spacing:-.05em}
+.study-switcher{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 22px;color:var(--ink)}
+.study-switcher label{width:100%;font-size:14px}.study-switcher select{min-width:0;flex:1;width:100%;padding:12px 30px 12px 12px;border:1px solid var(--green);border-radius:0;color:var(--ink);background:var(--paper);font-size:14px}
+.study-paging{display:flex;align-items:center;gap:8px;white-space:nowrap;font-size:12px}.study-paging button{width:34px;height:40px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.study-paging button:hover:not(:disabled){background:#ffdb5835}.study-paging button:disabled{opacity:.3;cursor:default}
+.table-wrap{border:1px solid var(--line)}#study-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:15px;line-height:1.65;color:var(--ink)}
+#study-table caption{text-align:left;padding:18px 20px;background:#929e601c;font-weight:600;font-size:17px;border-bottom:1px solid var(--line)}
+#study-table th,#study-table td{vertical-align:top;text-align:left;padding:17px 18px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+#study-table th{width:31%;font-weight:600;font-size:13px;background:#929e600b}#study-table tr:last-child th,#study-table tr:last-child td{border-bottom:0}
+.table-footer{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:12px;font-size:12px;line-height:1.5;margin-top:18px;color:var(--ink)}
+.sources ol{list-style:none;margin:0;padding:0}.sources li{padding:24px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.65}.sources li:first-child{padding-top:0}
+.sources li b{display:block;font-size:13px;letter-spacing:.03em;margin-bottom:9px;color:var(--green)}.sources li a{text-decoration:none;color:var(--ink)}.sources li a:hover{text-decoration:underline;text-underline-offset:4px}
+.map-reserved{min-height:620px;border:1px dashed #929e6080;display:flex;flex-direction:column;gap:25px;align-items:center;justify-content:center;text-align:center;padding:25px}
+.thanks h2{font-size:clamp(55px,7vw,110px);margin-top:70px}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid var(--orange);outline-offset:5px}
+@media(max-width:1000px){
+:root{--rail-space:56px;--sidebar:185px}nav{gap:24px;padding-left:25px;padding-right:25px}nav a{font-size:14px}.columns{column-gap:36px}
+#study-table th,#study-table td{padding:13px 11px}#study-table th{width:32%;font-size:12px}#study-table{font-size:14px}.study-paging{width:100%;justify-content:space-between}.scroll-rail{right:8px}
+}
+@media(max-width:700px){
+:root{--rail-space:38px}nav,body.side nav{left:0;right:0;bottom:auto;width:100%;min-height:100px;height:auto;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 20px;padding:12px 18px;border-right:0;border-bottom:1px solid var(--line)}
+nav a,body.side nav a{width:auto;font-size:12px;padding:10px 0}main,body.side main{margin-left:var(--rail-space);margin-right:var(--rail-space)}
+.page,body.side .page{padding:145px 0 50px}.home h1{font-size:17vw;margin:45px 0 40px}.members{font-size:14px;gap:10px}
+.scroll-rail{right:2px;width:25px;top:140px;bottom:25px;gap:16px}.organic{width:20px}.scroll-rail button{width:28px;height:34px}
+.columns{grid-template-columns:minmax(0,1fr);gap:60px}.columns::before{display:none}.references-column{border-top:1px solid var(--line);padding-top:35px}
+.column-heading{min-height:78px}.sources h2{font-size:38px}#study-table{font-size:15px}#study-table th{width:30%;font-size:12px}.thanks h2{font-size:clamp(36px,8vw,55px)}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.sources details {margin-top:18px;color:var(--ink);font-size:13px;line-height:1.65}
+.sources summary {cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.sources dl {margin:16px 0 0}
+.sources dt {font-weight:600;margin-top:14px}
+.sources dd {margin:4px 0 0;overflow-wrap:anywhere}
+.concepts {padding-top:22px;border-top:1px solid var(--line)}
+.sources summary:focus-visible {outline:3px solid var(--orange);outline-offset:5px}
+
+</style></head>
+<body>
+<nav id="nav" aria-label="Navegação principal"></nav>
+<main id="main">
+<section id="inicio" class="page home"><h1>Grupo Oito</h1><div class="members"><span>Jean Kelvin Vasconcelos Gomes</span><span>Rodrigo Rodrigues</span><span>Sayuri Costa Gonçalves Mizuno</span><span>Gabriel Delgado Aguiar Moreira</span><span>Arthur Monteiro Dutra</span><span>Pedro Lucas Moura Fernandes</span><span>Kayo Teixeira de Oliveira</span></div><div class="summary"><h2>Resumo do trabalho</h2><div class="blank" aria-label="Espaço reservado para o resumo"></div></div><div class="color-strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div></section>
+<section id="mapa" class="page" hidden><h2>Mapa mental</h2><div class="map-reserved"><span>O mapa mental será integrado nesta área.</span><a href="https://insights-processos-software.sasa-sync.chatgpt.site/" target="_blank" rel="noopener">Abrir mapa original ↗</a></div></section>
+<section id="futuro" class="page" hidden><h2>Tendências futuras<br>do mercado</h2><div class="blank future-body" aria-label="Espaço reservado para o texto de tendências futuras"></div></section>
+<section id="processo" class="page" aria-label="Processo" hidden></section>
+<section id="fontes" class="page sources" hidden>
+  <div class="columns">
+    <article class="table-column" aria-labelledby="table-heading">
+      <div class="column-heading"><h2 id="table-heading">Tabela investigativa</h2></div>
+      <div class="study-switcher"><label for="study-select">Artigo</label><select id="study-select" aria-controls="study-table"></select><div class="study-paging"><button type="button" id="previous-study" aria-label="Artigo anterior">←</button><span id="study-position" aria-live="polite"></span><button type="button" id="next-study" aria-label="Próximo artigo">→</button></div></div>
+      <div class="table-wrap"><table id="study-table"><caption id="study-caption"></caption><tbody id="study-body"></tbody></table></div>
+      <div class="table-footer"><span id="source-page"></span><a href="https://chatgpt.com/library?file_id=libfile_3275178da9e08191b340e55c9b7d22a9&account_id=personal" target="_blank" rel="noopener">Consultar PDF original ↗</a></div>
+    </article>
+    <article class="references-column" aria-labelledby="references-heading"><div class="column-heading"><h2 id="references-heading">Fontes</h2></div><ol id="references"></ol></article>
+  </div>
+</section>
+<section id="agradecimentos" class="page thanks" hidden><h2>Obrigada por<br>acompanhar<br>nosso trabalho!</h2><div class="blank" aria-label="Espaço para complementar os agradecimentos"></div></section>
+</main>
+<aside class="scroll-rail" aria-label="Controles de rolagem"><button id="up" aria-label="Rolar para cima"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="M6 18 20 5 34 18"/></svg></button><svg class="organic" viewBox="0 0 40 500" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="palette" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff7043"/><stop offset=".4" stop-color="#ffb15c"/><stop offset=".7" stop-color="#ffdb58"/><stop offset="1" stop-color="#929e60"/></linearGradient></defs><path d="M20 0 C0 80 40 110 20 170 S0 270 20 330 S40 430 20 500"/></svg><button id="down" aria-label="Rolar para baixo"><svg viewBox="0 0 40 24" aria-hidden="true"><path d="m6 6 14 13L34 6"/></svg></button></aside>
+<script>
+// Transcribed from Tabela_Investigativa_Grupo08(1).pdf, pages 1–3.
+// Only line breaks and repeated spacing were normalized; source wording is retained.
+const studyRows = [
+  {
+    "code": "CP7",
+    "sourcePage": 1,
+    "cells": [
+      "CP7 — De Paoli (2026; online 2025) Atividade: interpretar objetivos, frustrações e necessidades em entrevistas reais, antes de propor funcionalidades.",
+      "Codifica entrevistas, reúne temas e gera personas apoiadas nos relatos. A avaliação posterior de funcionalidades não é tomada como validação da descoberta inicial.",
+      "GPT-4 via API, com etapas de codificação, síntese temática e construção de perfis.",
+      "Reanalisa dados de uma investigação humana anterior. A IA oferece uma síntese alternativa; a coleta original e o conhecimento do contexto continuam humanos.",
+      "Aplicação em 26 entrevistas do projeto TRIPLE, com geração de oito personas. Demonstra a possibilidade de organizar relatos; não comprova ganho causal na descoberta de problemas.",
+      "Análise retrospectiva, em plataforma e domínio já conhecidos. Não há comparação causal que demonstre melhoria na escolha do problema inicial.",
+      "Inferência do grupo: uma síntese coerente pode apagar divergências e necessidades pouco frequentes. Perfis gerados precisam manter vínculo com as falas de origem.",
+      "Pesquisadores coletam entrevistas e definem códigos, temas e estrutura dos perfis. A equipe deve conferir as interpretações e validar hipóteses com usuários.",
+      "Alinha-se à tendência de usar IA para transformar entrevistas em temas, necessidades e representações dos usuários.",
+      "Quais dificuldades relevantes são preservadas ou omitidas? É possível rastrear cada característica da persona até a entrevista que a sustenta?"
+    ]
+  },
+  {
+    "code": "CP8",
+    "sourcePage": 1,
+    "cells": [
+      "CP8 — Mircea et al. (2026) Atividade: ajudar stakeholders a explicitar e conferir suas próprias necessidades.",
+      "Reformula declarações iniciais de requisitos; os participantes avaliam se a nova redação preserva a intenção e esclarece a necessidade.",
+      "GPT-4o em instância isolada, conforme a versão aberta consultada.",
+      "A declaração inicial é comparada à reformulação sugerida. O desenho é sequencial, sem grupo paralelo equivalente; a IA participa da articulação da necessidade.",
+      "26 participantes e 130 pares: em 43% das avaliações foram percebidos detalhes adicionais pertinentes; 35% indicaram melhor compreensão. São percepções dos participantes, não medidas objetivas de correção.",
+      "Amostra de conveniência de usuários de IDEs; análise principal com N=26. Conteúdo extraído do preprint v1, sem cotejo integral com a publicação editorial.",
+      "Sete reformulações apresentaram inexatidões percebidas. Inferência do grupo: uma redação convincente pode induzir preferências ou alterar o sentido original.",
+      "Cada pessoa expressa a necessidade e confere a reformulação. Sua validação de intenção é necessária; não equivale a comprovar a viabilidade ou relevância de mercado.",
+      "Recursos comerciais como o Rovo já reformulam descrições; o diferencial do artigo é investigar se a reformulação preserva a intenção da pessoa.",
+      "A IA esclarece a intenção ou acrescenta uma necessidade não desejada? Como verificar fidelidade e evitar que a pessoa apenas aceite a sugestão?"
+    ]
+  },
+  {
+    "code": "CP9",
+    "sourcePage": 1,
+    "cells": [
+      "CP9 — Almeida et al. (2025) Atividade: extrair necessidades de entrevistas dos sistemas WEPGCOMP e +Lugar.",
+      "Analisa transcrições e propõe requisitos. Os modelos não criam os stakeholders e não realizam as entrevistas.",
+      "ChatGPT-4 e DeepSeek-V3, conforme denominação usada no artigo.",
+      "Compara extrações dos modelos com uma referência humana existente. A entrevista e a contextualização do problema ocorrem antes da aplicação da IA.",
+      "Demonstra extração em dois sistemas reais e permite examinar correspondências com requisitos humanos. A avaliação também identifica omissões e erros; não prova descoberta de problemas inéditos.",
+      "Uma entrevista por sistema; problemas e sistemas já contextualizados. Os pareamentos não são estritamente um a um; contagens e taxas publicadas exigem cautela.",
+      "Requisitos inventados, necessidades omitidas e classificação incorreta podem distorcer a compreensão da fala. Uma redação formal não assegura fidelidade ao entrevistado.",
+      "Pessoas entrevistam stakeholders, constroem a referência e conferem correspondências. A validação humana precisa voltar ao contexto e à fala original.",
+      "Estudo exploratório de extração para Engenharia de Requisitos. soluções comerciais, as proto- personas do artigo permanecem hipóteses construídas a partir do contexto do projeto, exigindo validação posterior.",
+      "Quais necessidades se perdem na transformação da fala? Como distinguir informação explícita, interpretação plausível e requisito inventado?"
+    ]
+  },
+  {
+    "code": "CP10",
+    "sourcePage": 1,
+    "cells": [
+      "CP10— Mihany et al. (2025) Atividade: localizar relatos de problemas e pedidos em avaliações de aplicativos existentes.",
+      "Classifica avaliações em categorias, incluindo relatos de problemas e solicitações de funcionalidades; ajuda a selecionar feedback para investigação.",
+      "AREAR, com BERT- base-uncased. AugGPT é usado para ampliar dados de treinamento, não para gerar novas evidências de usuários.",
+      "A triagem automatizada complementa a leitura manual. O analista passa a investigar textos classificados e conferir se o rótulo representa a necessidade relatada.",
+      "Base original de 7.753 avaliações de 39 aplicativos. A acurácia global publicada de 99,1% refere-se ao classificador em experimento com aumento de dados; não é taxa de problemas validados.",
+      "Avaliações refletem apenas quem publicou feedback. Dados sintéticos não representam novos usuários. O estudo avalia classificação, não confirmação em campo de cada problema.",
+      "Inferência do grupo: necessidades não comentadas ou de grupos pouco representados podem desaparecer; erros de classificação podem orientar a equipe ao problema errado.",
+      "Usuários produzem os relatos; analistas interpretam contexto, conferem a relevância e confirmam necessidades antes de propor uma solução.",
+      "Essa aplicação já aparece comercialmente em plataformas que classificam avaliações, chamados e entrevistas continuamente; o artigo apresenta um recorte específico baseado em BERT e avaliações de aplicativos.",
+      "O rótulo de problema corresponde a uma dificuldade relevante? Quais necessidades ficam fora das avaliações e exigem entrevistas ou outras fontes?"
+    ]
+  },
+  {
+    "code": "A18",
+    "sourcePage": 2,
+    "cells": [
+      "A18 — Ayach et al. (2025), proto- personas Atividade: construir hipóteses sobre perfis de usuários durante uma Lean Inception, com visão e escopo do produto já definidos.",
+      "A IA gera rascunhos de proto-personas a partir das informações do projeto, para que a equipe discuta necessidades, públicos e possibilidades de funcionalidades.",
+      "ChatGPT 4o-mini com prompts estruturados e modelo de proto- persona; revisão e consolidação coletivas.",
+      "A equipe passa a avaliar e corrigir perfis inicialmente gerados por IA, em lugar de começar todos os perfis manualmente. O estudo não comparou grupos equivalentes com e sem IA.",
+      "No caso com 19 participantes, houve média relatada de 5,94 min para a execução individual; 89% perceberam aceleração. Os perfis foram considerados úteis para iniciar discussões. Não é ganho de tempo do processo completo.",
+      "Produto jurídico e contexto previamente delimitados; alguns perfis foram genéricos ou incompletos. Há divergência textual no artigo sobre a quantidade final de perfis. Necessidades reais não foram validadas sistematicamente.",
+      "Riscos relatados ou discutidos: generalizações indevidas, estereótipos, omissão de acessibilidade e dados sensíveis. Inferência do grupo: confundir uma persona plausível com um usuário real.",
+      "A equipe fornece visão e escopo, revisa perfis, corrige problemas de domínio e decide coletivamente quais representações servem à discussão.",
+      "enquanto soluções comerciais oferecem representações vinculadas a dados reais de clientes, as proto-personas do artigo permanecem hipóteses construídas a partir do contexto do projeto, exigindo validação posterior.",
+      "Como validar as hipóteses com usuários reais? O tempo economizado na geração compensa o trabalho de revisão? Como evitar omissões de grupos e necessidades?"
+    ]
+  },
+  {
+    "code": "A06",
+    "sourcePage": 2,
+    "cells": [
+      "A06 — Subramonyam et al. (2025), Prototyping with Prompts Atividade: explorar o comportamento de uma possível aplicação de IA generativa quando a tarefa de design já foi apresentada.",
+      "A IA produz respostas para diferentes prompts. As equipes alteram exemplos e limites, testam resultados, descobrem comportamentos indesejados e discutem alternativas de solução.",
+      "AI Studio com LLM identificado como Gemini no preprint; prompting iterativo, exemplos few-shot e ajustes de parâmetros e restrições.",
+      "Em vez de depender apenas de especificações e protótipos preparados antes dos testes, a equipe pode experimentar imediatamente diferentes comportamentos da IA. Não houve grupo de comparação sem IA.",
+      "Foram observadas estratégias de exploração, refinamento e avaliação crítica em 13 sessões com 39 profissionais. O estudo mostra possibilidades de trabalho, mas não mede aumento causal de produtividade ou qualidade final.",
+      "A tarefa (aplicação para marketing) foi definida pelos pesquisadores; não houve descoberta inicial do problema. Dificuldades de interpretar o modelo e dependência de exemplos específicos; mudanças no protocolo entre sessões.",
+      "Riscos observados/discutidos: respostas inconsistentes, estereótipos, sobreajuste aos exemplos e sensação falsa de prontidão. A qualidade em produção não foi medida.",
+      "Profissionais de UX, desenvolvimento e produto definem critérios, testam saídas, discutem restrições e decidem quais comportamentos merecem continuar ou ser descartados.",
+      "Ambientes como Google AI Studio oferecem esse fluxo de exploração; o artigo contribui ao investigar como equipes colaboram e avaliam os comportamentos da IA durante a concepção.",
+      "Como passar do teste de prompts para validação com usuários? A exploração melhora o produto final? Como documentar decisões e controlar estereótipos e comportamentos instáveis?"
+    ]
+  },
+  {
+    "code": "A16",
+    "sourcePage": 2,
+    "cells": [
+      "A16 — Wang e Siu (2026) Atividade: explorar reações a conceitos de produto já definidos, usando agentes informados por entrevistas humanas.",
+      "Simula respostas e avaliações a quatro conceitos de fluxos com documentos. Compara agentes com entrevista e memória individual, apenas memória e sem informação individual.",
+      "GPT-4o; memória de perguntas e respostas, scratchpad, reflexão e recuperação por embeddings text- embedding-3-small.",
+      "Respostas simuladas podem apoiar exploração preliminar. A referência de validação continua sendo a pessoa entrevistada, comparando também sua consistência em um novo teste.",
+      "Estudo com 51 participantes e quatro conceitos. Entrevistas melhoraram resultados dos agentes em relação às alternativas avaliadas, mas a fidelidade individual permaneceu limitada.",
+      "Conceitos e domínio foram definidos previamente; participantes dos EUA em trabalho do conhecimento. Resultados variam por conceito e pergunta; não comprovam descoberta de um novo problema.",
+      "O estudo mostra perda de nuances em respostas simuladas. Inferência do grupo: rejeições e necessidades minoritárias podem ser suavizadas; entrevistas exigem cuidado com privacidade.",
+      "Pessoas fornecem entrevistas, testam os conceitos e participam do reteste. Suas respostas são a referência; agentes não substituem validação com usuários reais.",
+      "Soluções como Dovetail Digital Twins e Qualtrics Synthetic Panels evidenciam essa direção comercial; o artigo contribui ao verificar os limites da correspondência entre respostas simuladas e humanas.",
+      "Quando a simulação preserva uma necessidade individual? Como identificar divergências antes de usar os agentes para escolher uma solução?"
+    ]
+  },
+  {
+    "code": "CP3",
+    "sourcePage": 3,
+    "cells": [
+      "CP3 — Renz, Martin e Flad (2025) Atividade: reconhecer oportunidades de negócio a partir de cenários apresentados; não trata especificamente de projetos de software.",
+      "O ChatGPT auxilia participantes a desenvolver e avaliar ideias de oportunidades para situações propostas no experimento.",
+      "LLM ChatGPT 3.5 usado como apoio no grupo experimental; oportunidades avaliadas por especialistas humanos.",
+      "O estudo comparou atividades de identificação de oportunidades com e sem LLM. Participantes realizaram tarefas em duas rodadas, com grupo experimental e controle.",
+      "Em 63 estudantes, as ideias geradas com apoio da IA receberam avaliações melhores dos especialistas, com diferença estatística relatada. Isso mede desempenho nas tarefas de empreendedorismo, não sucesso de software no mercado.",
+      "Oportunidades foram avaliadas em cenários de negócio simulados; a amostra era de estudantes. Não houve acompanhamento de adoção por clientes nem validação de um produto de software.",
+      "Inferência do grupo: uma ideia bem avaliada pode ser tomada como demanda comprovada, embora não tenha sido validada com o público ou nas condições reais de implantação.",
+      "Participantes elaboram e selecionam ideias; especialistas julgam a qualidade das propostas. Em um projeto real, a equipe ainda precisaria ouvir usuários e examinar o mercado.",
+      "Ferramentas como Productboard Spark já relacionam sinais de clientes, mercado e estratégia para sugerir oportunidades de produto. O artigo investiga essa direção no empreendedorismo; sua aplicação à descoberta de software exige adaptação.",
+      "O mesmo efeito ocorreria em projetos reais de Engenharia de Software? Ideias mais bem avaliadas se tornam oportunidades viáveis e úteis para usuários?"
+    ]
+  },
+  {
+    "code": "A19",
+    "sourcePage": 3,
+    "cells": [
+      "A19 — Mihany et al. (2026) Atividade: agrupar pedidos e apoiar escolhas iniciais.",
+      "Organiza avaliações em temas e ordena grupos por frequência; dentro deles, usa proximidade semântica ao centro.",
+      "DARP: BERTopic, all-mpnet-base-v2, UMAP e HDBSCAN.",
+      "Complementa priorização humana com agrupamento e ordenação automáticos.",
+      "Demonstra aplicação a 1.128 avaliações; cinco especialistas avaliam prioridades, com concordância variável.",
+      "Corpus agregado; descrição divergente dos filtros nas §§ 2.3.1/2.4. Validação em um conjunto; não confirma problemas inéditos.",
+      "Inferência do grupo: frequência e semelhança podem ocultar necessidades raras, porém críticas.",
+      "Especialistas avaliam listas; a equipe deve confirmar necessidades com usuários.",
+      "plataformas comerciais já oferecem conexões entre feedback, clientes e impacto no negócio para apoiar decisões mais contextualizadas.",
+      "As prioridades representam necessidades relevantes, além de pedidos frequentes?"
+    ]
+  }
+];
+
+const studyRefs = [
+  {
+    "code": "CP7",
+    "authors": "De Paoli (2026; online 2025)",
+    "title": "User personas, ideation and large language models: A post-hoc study",
+    "method": "Reanálise post-hoc: 26 entrevistas; oito personas",
+    "locator": "PDF editorial: pp. 2–4, §§ 3.1–3.4; Tabela 8, p. 13; limites § 5.3, pp. 13–14. DOI: 10.1016/j.ijhcs.2025.103690",
+    "url": "https://rke.abertay.ac.uk/ws/files/101920220/DePaoli_UserPersonas_Published_2025.pdf"
+  },
+  {
+    "code": "CP8",
+    "authors": "Mircea, Gevrek, Schmid e Schneider (2026)",
+    "title": "Supporting Stakeholder Requirements Expression with LLM Revisions: An Empirical Evaluation",
+    "method": "Comparação sequencial; 26 participantes; 130 pares",
+    "locator": "arXiv:2601.16699v1, §§ 3–4.3; Tabela 1, § 4.2; limites §§ 5.2 e 6. Publicado em REFSQ 2026, pp. 303–319. DOI: 10.1007/978-3-032-21423-2_21",
+    "url": "https://arxiv.org/html/2601.16699v1"
+  },
+  {
+    "code": "CP9",
+    "authors": "Almeida et al. (2025)",
+    "title": "From Elicitation Interviews to Software Requirements: Evaluating LLM Performance in Requirement Generation",
+    "method": "Extração de entrevistas em dois sistemas reais",
+    "locator": "PDF dos anais WER2025: pp. 5–8, §§ 3.2–3.5; pp. 9–11, § 4 e Tabelas 3–5; limites pp. 12–13, § 5. DOI: 10.29327/1588952.28-12",
+    "url": "https://werpapers.dimap.ufrn.br/papers/WER2025/wer202511.pdf"
+  },
+  {
+    "code": "CP10",
+    "authors": "Mihany, Galal-Edeen, Hassanein e Moussa (2025)",
+    "title": "Data-Driven Requirements Elicitation from App Reviews Framework Based on BERT",
+    "method": "Classificação de avaliações; corpus original com 7.753 textos de 39 apps",
+    "locator": "Applied Sciences, 15(17), 9709. HTML: §§ 4.4, 5.1; § 6, Figuras 5–7; § 7. DOI: 10.3390/app15179709",
+    "url": "https://www.mdpi.com/2076-3417/15/17/9709"
+  },
+  {
+    "code": "A18",
+    "authors": "Ayach et al. (2025)",
+    "title": "Generating Proto-Personas through Prompt Engineering: A Case Study on Efficiency, Effectiveness and Empathy",
+    "method": "Caso único em Lean Inception; 19 executantes",
+    "locator": "arXiv:2507.08594v1, pp. 2–9: §§ 3, 4.4, 5.0.1–5.0.4; registros A18-01, 02, 04, 05, 06, 07, 08, 09",
+    "url": "https://arxiv.org/pdf/2507.08594v1"
+  },
+  {
+    "code": "A06",
+    "authors": "Subramonyam et al. (2025)",
+    "title": "Prototyping with Prompts: Emerging Approaches and Challenges in Generative AI Design for Collaborative Software Teams",
+    "method": "Oficinas qualitativas; 39 profissionais em 13 sessões",
+    "locator": "arXiv:2402.17721v2, pp. 4–15: §§ 3–5; registros A06-01, 02, 03, 04, 05, 07, 08, 09",
+    "url": "https://arxiv.org/pdf/2402.17721v2"
+  },
+  {
+    "code": "A16",
+    "authors": "Wang e Siu (2026)",
+    "title": "Interview-Informed Generative Agents for Product Discovery: A Validation Study",
+    "method": "51 participantes; quatro conceitos predefinidos; comparação de agentes e teste/reteste humanos",
+    "locator": "arXiv:2603.29890v1: pp. 3–6, §§ 3–5; pp. 6–9, § 6 e Figuras 4–6; limites § 8, pp. 9–10. Fichamento consolidado após auditoria.",
+    "url": "https://arxiv.org/pdf/2603.29890v1"
+  },
+  {
+    "code": "CP3",
+    "authors": "Renz, Martin e Flad (2025)",
+    "title": "Large language models as a catalyst for opportunity recognition capability",
+    "method": "Estudo experimental com 63 estudantes; ideias avaliadas por especialistas",
+    "locator": "HTML editorial, §§ 3.1–3.5, 4.2 e 7; Tabela 1; sem paginação única estável para o HTML",
+    "url": "https://doi.org/10.1108/IJEBR-08-2024-0815"
+  },
+  {
+    "code": "A19",
+    "authors": "Mihany et al. (2026)",
+    "title": "Data-Driven Requirements Prioritization Framework for App Reviews",
+    "method": "Agrupamento e priorização; comparação com cinco especialistas",
+    "locator": "Inventions, 11(2), 33. HTML: §§ 2.3–2.5; § 3, Tabelas 5–7; §§ 4–5. DOI: 10.3390/inventions11020033",
+    "url": "https://www.mdpi.com/2411-5134/11/2/33"
+  }
+];
+const studyConcepts = [
+  {
+    "code": "C1",
+    "activity": "Identificação e compreensão de problemas",
+    "meaning": "Investigar evidências, relatos e dificuldades antes de definir qual problema merece ser resolvido."
+  },
+  {
+    "code": "C2",
+    "activity": "Descoberta e avaliação de oportunidades",
+    "meaning": "Reconhecer situações em que uma intervenção poderia gerar valor, sem presumir o produto final."
+  },
+  {
+    "code": "C3",
+    "activity": "Compreensão das necessidades dos usuários e stakeholders",
+    "meaning": "Ouvir e compreender envolvidos; levantar e verificar hipóteses sobre necessidades."
+  },
+  {
+    "code": "C4",
+    "activity": "Análise de viabilidade preliminar",
+    "meaning": "Examinar condições técnicas, econômicas e operacionais antes de avançar."
+  },
+  {
+    "code": "C5",
+    "activity": "Formulação e avaliação de alternativas de solução",
+    "meaning": "Considerar soluções e testar hipóteses iniciais sem assumir uma alternativa como definitiva."
+  },
+  {
+    "code": "C6",
+    "activity": "Priorização e tomada de decisões iniciais",
+    "meaning": "Decidir quais problemas, hipóteses e caminhos merecem investigação ou ação primeiro."
+  }
+];
+
+
+</script><script>
+const pages=[['inicio','Início'],['mapa','Mapa mental'],['futuro','Futuro'],['processo','Processo'],['fontes','Fontes'],['agradecimentos','Agradecimentos']];
+const nav=document.querySelector('#nav');nav.innerHTML=pages.map(([id,label])=>`<a href="#${id}" data-page="${id}">${label}</a>`).join('');
+function route(){let id=location.hash.slice(1)||'inicio';if(!pages.some(p=>p[0]===id))id='inicio';document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==id);document.body.classList.toggle('side',['mapa','futuro','processo','agradecimentos'].includes(id));nav.querySelectorAll('a').forEach(a=>{if(a.dataset.page===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});document.title=`${pages.find(p=>p[0]===id)[1]} · Grupo Oito`;window.scrollTo({top:0,behavior:'instant'});}
+window.addEventListener('hashchange',route);route();document.querySelector('#up').onclick=()=>window.scrollBy({top:-innerHeight*.8,behavior:'smooth'});document.querySelector('#down').onclick=()=>window.scrollBy({top:innerHeight*.8,behavior:'smooth'});
+const tableLabels = [
+  'Artigo e atividade investigada', 'Uso da IA', 'Tecnologia / ferramenta',
+  'Mudança em relação à prática sem IA', 'Benefícios observados ou relatados',
+  'Limitações / desafios', 'Riscos', 'Participação humana',
+  'Tendência / estágio', 'Questões abertas'
+];
+const studySelect = document.querySelector('#study-select');
+const normalizeWrap = text => text.replace(/([A-Za-z])-\s+(?=[a-z])/g, '$1-');
+studyRows.forEach(row => {
+  const option = document.createElement('option');
+  option.value = row.code;
+  option.textContent = normalizeWrap(row.cells[0].split(' Atividade:')[0]);
+  studySelect.append(option);
+});
+function showStudy(index) {
+  const row = studyRows[index];
+  studySelect.value = row.code;
+  document.querySelector('#study-caption').textContent = normalizeWrap(row.cells[0].split(' Atividade:')[0]);
+  const body = document.querySelector('#study-body');
+  body.replaceChildren();
+  row.cells.forEach((value, field) => {
+    const tr = document.createElement('tr');
+    const th = document.createElement('th');
+    th.scope = 'row';
+    th.textContent = tableLabels[field];
+    const td = document.createElement('td');
+    td.textContent = normalizeWrap(value);
+    tr.append(th, td);
+    body.append(tr);
+  });
+  document.querySelector('#study-position').textContent = (index + 1) + ' / ' + studyRows.length;
+  document.querySelector('#source-page').textContent = 'Tabela do grupo · página ' + row.sourcePage + ' do PDF';
+  document.querySelector('#previous-study').disabled = index === 0;
+  document.querySelector('#next-study').disabled = index === studyRows.length - 1;
+}
+studySelect.addEventListener('change', () => showStudy(studySelect.selectedIndex));
+document.querySelector('#previous-study').addEventListener('click', () => {
+  if (studySelect.selectedIndex > 0) showStudy(studySelect.selectedIndex - 1);
+});
+document.querySelector('#next-study').addEventListener('click', () => {
+  if (studySelect.selectedIndex < studyRows.length - 1) showStudy(studySelect.selectedIndex + 1);
+});
+showStudy(0);
+
+
+const refsList = document.querySelector('#references');
+studyRefs.forEach(ref => {
+  const li = document.createElement('li');
+  const code = document.createElement('b');
+  code.textContent = ref.code + ' · ' + ref.authors;
+  const link = document.createElement('a');
+  link.href = ref.url;
+  link.target = '_blank';
+  link.rel = 'noopener';
+  link.textContent = ref.title + ' ↗';
+  const detail = document.createElement('details');
+  const summary = document.createElement('summary');
+  summary.textContent = 'Método e localização no artigo';
+  const dl = document.createElement('dl');
+  for (const [label, value] of [['Método', ref.method], ['Localizador na tabela fornecida', ref.locator]]) {
+    const dt = document.createElement('dt');
+    dt.textContent = label;
+    const dd = document.createElement('dd');
+    dd.textContent = value;
+    dl.append(dt, dd);
+  }
+  detail.append(summary, dl);
+  li.append(code, link, detail);
+  refsList.append(li);
+});
+const conceptsPanel = document.createElement('details');
+conceptsPanel.className = 'concepts';
+const conceptsSummary = document.createElement('summary');
+conceptsSummary.textContent = 'Conceitos base (C1–C6)';
+const conceptList = document.createElement('dl');
+studyConcepts.forEach(item => {
+  const dt = document.createElement('dt');
+  dt.textContent = item.code + ' · ' + item.activity;
+  const dd = document.createElement('dd');
+  dd.textContent = item.meaning;
+  conceptList.append(dt, dd);
+});
+conceptsPanel.append(conceptsSummary, conceptList);
+document.querySelector('.table-column').append(conceptsPanel);
+
+
+</script>
+</body></html>
+
